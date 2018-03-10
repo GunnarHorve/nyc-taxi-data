@@ -42,9 +42,9 @@ for filename in /mnt/disks/storage/raw/green*.csv; do
   fi
 
   echo "`date`: beginning load for ${filename}"
-  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc-taxi-data -c "COPY green_tripdata_staging ${schema} FROM stdin CSV HEADER;"
+  sed $'s/\r$//' $filename | sed '/^$/d' | sudo -u postgres psql nyc-taxi-data -c "COPY green_tripdata_staging ${schema} FROM stdin CSV HEADER;"
   echo "`date`: finished raw load for ${filename}"
-  psql nyc-taxi-data -f populate_green_trips.sql
+  sudo -u postgres psql nyc-taxi-data -f populate_green_trips.sql
   echo "`date`: loaded trips for ${filename}"
 done;
 
@@ -64,10 +64,10 @@ for filename in /mnt/disks/storage/raw/yellow*.csv; do
   fi
 
   echo "`date`: beginning load for ${filename}"
-  sed $'s/\r$//' $filename | sed '/^$/d' | psql nyc-taxi-data -c "COPY yellow_tripdata_staging ${schema} FROM stdin CSV HEADER;"
+  sed $'s/\r$//' $filename | sed '/^$/d' | sudo -u postgres psql nyc-taxi-data -c "COPY yellow_tripdata_staging ${schema} FROM stdin CSV HEADER;"
   echo "`date`: finished raw load for ${filename}"
-  psql nyc-taxi-data -f populate_yellow_trips.sql
+  sudo -u postgres psql nyc-taxi-data -f populate_yellow_trips.sql
   echo "`date`: loaded trips for ${filename}"
 done;
 
-psql nyc-taxi-data -c "CREATE INDEX idx_trips_on_pickup_datetime_brin ON trips USING BRIN (pickup_datetime) WITH (pages_per_range = 32);"
+sudo -u postgres psql nyc-taxi-data -c "CREATE INDEX idx_trips_on_pickup_datetime_brin ON trips USING BRIN (pickup_datetime) WITH (pages_per_range = 32);"
