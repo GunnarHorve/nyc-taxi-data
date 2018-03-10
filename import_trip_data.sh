@@ -24,7 +24,7 @@ yellow_schema_2017_h1="(vendor_id,tpep_pickup_datetime,tpep_dropoff_datetime,pas
 # sed -E '/(.*,){18,}/d' data/yellow_tripdata_2010-02.csv > data/yellow_tripdata_2010-02.csv
 # sed -E '/(.*,){18,}/d' data/yellow_tripdata_2010-03.csv > data/yellow_tripdata_2010-03.csv
 
-for filename in data/green*.csv; do
+for filename in /mnt/disks/storage/raw/green*.csv; do
   [[ $filename =~ $year_month_regex ]]
   year=${BASH_REMATCH[1]}
   month=$((10#${BASH_REMATCH[2]}))
@@ -48,7 +48,7 @@ for filename in data/green*.csv; do
   echo "`date`: loaded trips for ${filename}"
 done;
 
-for filename in data/yellow*.csv; do
+for filename in /mnt/disks/storage/raw/yellow*.csv; do
   [[ $filename =~ $year_month_regex ]]
   year=${BASH_REMATCH[1]}
   month=$((10#${BASH_REMATCH[2]}))
