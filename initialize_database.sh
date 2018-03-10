@@ -17,6 +17,6 @@ sudo -u postgres psql nyc-taxi-data -c "VACUUM ANALYZE nyct2010;"
 
 sudo -u postgres psql nyc-taxi-data -f add_tract_to_zone_mapping.sql
 
-cat /mnt/disks/storage/raw/fhv_bases.csv | sudo -u postgres psql nyc-taxi-data -c "COPY fhv_bases FROM stdin WITH CSV HEADER;"
-cat /mnt/disks/storage/raw/central_park_weather.csv | sudo -u postgres psql nyc-taxi-data -c "COPY central_park_weather_observations FROM stdin WITH CSV HEADER;"
+cat data/raw/fhv_bases.csv | sudo -u postgres psql nyc-taxi-data -c "COPY fhv_bases FROM stdin WITH CSV HEADER;"
+cat data/raw/central_park_weather.csv | sudo -u postgres psql nyc-taxi-data -c "COPY central_park_weather_observations FROM stdin WITH CSV HEADER;"
 sudo -u postgres psql nyc-taxi-data -c "UPDATE central_park_weather_observations SET average_wind_speed = NULL WHERE average_wind_speed = -9999;"
